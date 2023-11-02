@@ -1,10 +1,9 @@
 import express,{Request,response,Response} from "express"
-import {ControllerRoutes} from"../controller/ControllerRoutes"
+import routes from "../Routes/routes"
 const app = express()
 
 app.use(express.json())
-app.get("/",ControllerRoutes.InitialRequest)
-app.post("/user",ControllerRoutes.postUser)
+app.use("/",routes)
 
 
 app.listen(4000,()=>{

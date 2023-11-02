@@ -1,10 +1,33 @@
-import { Request,Response } from "express";
+import { Request,response,Response } from "express";
+import {methodDb} from "../models/dbFake"
+
 export  class ControllerRoutes{
-    static InitialRequest(req:Request,res:Response){
-        return res.status(200).json({message:"resposta"})
+    static async getAllUser(req:Request,res:Response){
+        const alluser = await methodDb.getAllUser
+        return res.status(200).json({message:alluser})
     }
-    static postUser(req:Request,res:Response){
-        console.log(req.body)
-        res.status(201).json({message:"usuario criado"})
+    static async createUser(req:Request,res:Response){
+        const {name,email} = req.body
+        if(!name){
+            res.status(400).json({message:"nome obrigatorio"}) 
+            return
+        }
+        if(!email){
+            res.status(400).json({message:"email obrigatorio"}) 
+            return
+        }
+        try{
+            await methodDb.createUser({name,email})        
+            res.status(201).json({message:"usuario criado",newUser:{name,email}})
+
+        }
+        catch(err){
+            return response.status(500).json({message:"erro no servidor"})
+        }
+        
+        
+        
+
+
     }
 }
