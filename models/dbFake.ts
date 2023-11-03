@@ -7,11 +7,11 @@ const db:user[]  = [
 ]
 
 export class methodDb{
-    static createUser(newUser:user){
+     createUser(newUser:user){
         db.push(newUser)
         console.log(db)
     }
-    static getAllUser(){
+     getAllUser(){
         console.log(db)
         return db
     }
