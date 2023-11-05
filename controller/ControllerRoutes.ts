@@ -1,12 +1,16 @@
 import { Request,response,Response } from "express";
 import {methodDb} from "../models/dbFake"
-const metodo = new methodDb()
+
 export  class ControllerRoutes{
-    static async getAllUser(req:Request,res:Response){
-        const alluser = await metodo.getAllUser
+    userService!:methodDb
+    constructor(userService = new methodDb){
+            this.userService = userService
+    }
+     async getAllUser(req:Request,res:Response){
+        const alluser = await this.userService.getAllUser
         return res.status(200).json({message:alluser})
     }
-    static async createUser(req:Request,res:Response){
+     async createUser(req:Request,res:Response){
         const {name,email} = req.body
         if(!name){
             res.status(400).json({message:"nome obrigatorio"}) 
@@ -17,7 +21,7 @@ export  class ControllerRoutes{
             return
         }
         try{
-            await metodo.createUser({name,email})        
+            await this.userService.createUser({name,email})        
             res.status(201).json({message:"usuario criado",newUser:{name,email}})
 
         }
